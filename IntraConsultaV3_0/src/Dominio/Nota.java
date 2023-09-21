@@ -61,6 +61,7 @@ public class Nota {
 	}
 
 	public CondFinal mostrarCondFinal() {
+	if(parcial1 !=0 && parcial2 !=0) {	
 		if (parcial1 >= 7 && parcial2 >= 7) {
 			return CondFinal.Promocionado;
 		}
@@ -68,9 +69,12 @@ public class Nota {
 			return CondFinal.Cursado;
 		}
 
-		return CondFinal.Desaprobado;
 	}
-
+	return CondFinal.Desaprobado;
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Nota [parcial=" + parcial1 + ", parcial2=" + parcial2 + ", Final=" + Final + "]";

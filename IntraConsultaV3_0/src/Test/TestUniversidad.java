@@ -106,18 +106,24 @@ public class TestUniversidad {
 	public void queNoSePuedaAgregarCicloLectivo() {
 
 		// Preparacion
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
+		
+		LocalDate fechaInicioCicloLectivo =LocalDate.of( 2023 ,1 ,1);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 2023 ,2 ,2);
 		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
 		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
 		Uni uni = new Uni("unlam");
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 
-		Ciclo ciclo2 = new Ciclo(fechaFinalizacionInscripcion, fechaFinalizacionInscripcion,
-				fechaFinalizacionInscripcion, fechaFinalizacionInscripcion);
+		LocalDate fechaInicioCicloLectivo2 =LocalDate.of( 2023 ,1 ,1);
+		LocalDate fechaFinalizacionCicloLectivo2 = LocalDate.of( 2023 ,2 ,2);
+		LocalDate fechaInicioInscripcion2 = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaFinalizacionInscripcion2 = LocalDate.of( 1990 ,12 ,31);
+		
+		
+		
+		Ciclo ciclo2 = new Ciclo(fechaInicioCicloLectivo2, fechaFinalizacionCicloLectivo2,
+				fechaInicioInscripcion2, fechaFinalizacionInscripcion2);
 
 		// validacion
 		assertTrue(uni.registrarCicloLect(ciclo));
@@ -307,9 +313,9 @@ public class TestUniversidad {
 		
 		assertTrue(  materiaEssperada.getCorrelativas().contains(materia3));
 		
+		//assertTrue(  materiaEssperada.getCorrelativas().contains(materia3));
 		
-		// 	TODO Revisar 
-		//assertTrue(  materiaEssperada.getCorrelativas().contains(materia2));
+	
 		
 		
 
@@ -598,15 +604,15 @@ public class TestUniversidad {
 		// ObtenerPROMEDIODeNotasDeAumnosDeCurso(idCurso)
 
 	}
+	
+	
+	
 			//TODO
 			// La nota debe estar entre 1 y 10
 			// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
 			// correlativas aprobadas (Mayor o igual a 7)
-			// Las notas pueden ser de tipo 1erParc, 2doParc, Rec1Parcial, Rec2Parcial,
-			// Final
-			// no puede rendir 2 recuperatorios, es solo 1.
-			// para cargar la nota final, debe tener aprobadas las parciales
-	
+			
+			
 			//TODO agregar estas dos condiciones a inscripcionCursoAlumno	
 			// La inscripción no se puede realizar si esta fuera de fecha Inscripción
 

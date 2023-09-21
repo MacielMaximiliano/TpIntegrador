@@ -3,6 +3,7 @@ package Dominio;
 import java.util.ArrayList;
 
 public class Uni {
+
 	private String nombre;
 	private ArrayList<Materia> materias;
 	private ArrayList<Aula> aulas;
@@ -77,9 +78,36 @@ public class Uni {
 		if (ciclosLectivos.contains(ciclo)) {
 			return false;
 		}
+		//metodo a probar
+		for (int i = 0; i < ciclosLectivos.size(); i++) {
+				if(seSuperponen(ciclosLectivos.get(i),ciclo	)) {
+					return false;
+				}
+		}
+		
+		
+		
 		return ciclosLectivos.add(ciclo);
 
 	}
+	
+	
+	
+	 public boolean seSuperponen(Ciclo cArray ,Ciclo nuevo) {
+	   
+	        boolean despues = cArray.getFechaFinalizacionCicloLectivo().isBefore(nuevo.getFechaInicioCicloLectivo());
+	        
+	       
+	        boolean antes = cArray.getFechaInicioCicloLectivo().isAfter(nuevo.getFechaFinalizacionCicloLectivo());
+	        
+	      
+	        return !(despues || antes);
+	    }
+	
+	
+	
+	
+	
 
 	public Ciclo buscarCicloLect(Integer idCiclo) {
 		Ciclo aux = null;
@@ -172,17 +200,16 @@ public class Uni {
 	}
 	
 	
-	
+	//TODO
 	// La inscripción no se puede realizar si esta fuera de fecha Inscripción
 
-	// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
-	// correlativas (Todas las correlativas Con nota >=4
 	
 	
 	
 	public Boolean inscribirAlumnoACurso(Integer dni, Integer id) {
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
+		
 
 		if (alumno == null && curso == null) {
 			return false;
@@ -196,11 +223,20 @@ public class Uni {
 			return false;
 		}
 		
+		
 		// No se puede inscribir el Alumno si ya está inscripto a otro curso para el
 		// mismo día y Turno
 		if(alumnoInscriptoMismoDiaYturno(alumno,curso)) {
 			return false;
 		}
+		
+		
+		
+		
+		if(!alumnoTieneCorrelativasAprobadas(alumno,curso.getMateria())) {
+			return false;
+		}
+			
 		
 
 		AlumnoCurso alumnoCurso = new AlumnoCurso(alumno, curso);
@@ -208,6 +244,13 @@ public class Uni {
 	}
 
 	
+	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Materia materia) {
+		//TODO		
+		
+		// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
+		// correlativas (Todas las correlativas Con nota >=4
+		return true;
+		
 	
 	
 	
@@ -219,6 +262,8 @@ public class Uni {
 	
 	
 	
+	}
+
 	public Boolean registrarNota(Integer id, Integer dni, Nota nota) {
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
@@ -264,7 +309,9 @@ public class Uni {
 			
 			
 			//TODO revisar el metodo un profeCada20
-			if (ProfeEnOotroCursoAlMismoHorario(profe, curso) == false ) {
+			if (ProfeEnOotroCursoAlMismoHorario(profe, curso) == false
+					//&& UnoProfeCada20(curso)
+					) {
 				profesAsignados.add(profeCurso);
 				aux = true;
 			}
