@@ -470,10 +470,9 @@ public class TestUniversidad {
 		// La nota debe estar entre 1 y 10
 		// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
 		// correlativas aprobadas (Mayor o igual a 7)
-		// Las notas pueden ser de tipo 1erParc, 2doParc, Rec1Parcial, Rec2Parcial,
-		// Final
-		// no puede rendir 2 recuperatorios, es solo 1.
-		// para cargar la nota final, debe tener aprobadas las parciales
+		
+		
+		
 	}
 
 	@Test
@@ -613,13 +612,10 @@ public class TestUniversidad {
 			// correlativas aprobadas (Mayor o igual a 7)
 			
 			
-			//TODO agregar estas dos condiciones a inscripcionCursoAlumno	
-			// La inscripción no se puede realizar si esta fuera de fecha Inscripción
+			
 
-			// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
-			// correlativas (Todas las correlativas Con nota >=4
+		
 
-			// TODO revisar el metodo 1 alumno cada 20 profes en uni
-			// Cada 20 alumnos se debe agregar un docente ejemplo de 1 a 20 alumnos solo se
-			// puede asignar un docente, de 21 a 40 2 docentes
+		
+			
 }

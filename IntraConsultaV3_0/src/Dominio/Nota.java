@@ -61,7 +61,8 @@ public class Nota {
 	}
 
 	public CondFinal mostrarCondFinal() {
-	if(parcial1 !=0 && parcial2 !=0) {	
+		// para cargar la nota final, debe tener aprobadas las parciales
+	if(parcial1 >=4 && parcial2 >=4) {	
 		if (parcial1 >= 7 && parcial2 >= 7) {
 			return CondFinal.Promocionado;
 		}

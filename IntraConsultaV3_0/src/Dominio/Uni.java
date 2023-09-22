@@ -78,36 +78,25 @@ public class Uni {
 		if (ciclosLectivos.contains(ciclo)) {
 			return false;
 		}
-		//metodo a probar
+		// metodo a probar
 		for (int i = 0; i < ciclosLectivos.size(); i++) {
-				if(seSuperponen(ciclosLectivos.get(i),ciclo	)) {
-					return false;
-				}
+			if (seSuperponen(ciclosLectivos.get(i), ciclo)) {
+				return false;
+			}
 		}
-		
-		
-		
+
 		return ciclosLectivos.add(ciclo);
 
 	}
-	
-	
-	
-	 public boolean seSuperponen(Ciclo cArray ,Ciclo nuevo) {
-	   
-	        boolean despues = cArray.getFechaFinalizacionCicloLectivo().isBefore(nuevo.getFechaInicioCicloLectivo());
-	        
-	       
-	        boolean antes = cArray.getFechaInicioCicloLectivo().isAfter(nuevo.getFechaFinalizacionCicloLectivo());
-	        
-	      
-	        return !(despues || antes);
-	    }
-	
-	
-	
-	
-	
+
+	public boolean seSuperponen(Ciclo cArray, Ciclo nuevo) {
+
+		boolean despues = cArray.getFechaFinalizacionCicloLectivo().isBefore(nuevo.getFechaInicioCicloLectivo());
+
+		boolean antes = cArray.getFechaInicioCicloLectivo().isAfter(nuevo.getFechaFinalizacionCicloLectivo());
+
+		return !(despues || antes);
+	}
 
 	public Ciclo buscarCicloLect(Integer idCiclo) {
 		Ciclo aux = null;
@@ -198,70 +187,55 @@ public class Uni {
 		}
 		return false;
 	}
-	
-	
-	//TODO
+
+	// TODO
 	// La inscripción no se puede realizar si esta fuera de fecha Inscripción
 
-	
-	
-	
 	public Boolean inscribirAlumnoACurso(Integer dni, Integer id) {
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
-		
 
 		if (alumno == null && curso == null) {
 			return false;
 		}
-		
-		
+
 		// No se puede inscribir el alumno si excede la cantidad de alumnos permitos en
 		// el aula
-		if(cuantosAlumnoCursanUnCurso(curso) > curso.getAula().getCantAlumn()){
-			
+		if (cuantosAlumnoCursanUnCurso(curso) > curso.getAula().getCantAlumn()) {
+
 			return false;
 		}
-		
-		
+
 		// No se puede inscribir el Alumno si ya está inscripto a otro curso para el
 		// mismo día y Turno
-		if(alumnoInscriptoMismoDiaYturno(alumno,curso)) {
+		if (alumnoInscriptoMismoDiaYturno(alumno, curso)) {
 			return false;
 		}
-		
-		
-		
-		
-		if(!alumnoTieneCorrelativasAprobadas(alumno,curso.getMateria())) {
+
+		if (!alumnoTieneCorrelativasAprobadas(alumno, curso.getMateria())) {
 			return false;
 		}
-			
-		
+		if (!estaEnFechaDeInscripcion(curso)) {
+			return false;
+		}
 
 		AlumnoCurso alumnoCurso = new AlumnoCurso(alumno, curso);
 		return alumnosAsignados.add(alumnoCurso);
 	}
 
-	
+	private boolean estaEnFechaDeInscripcion(Curso curso) {
+		// TODO 
+		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
+		return true;
+	}
+
 	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Materia materia) {
-		//TODO		
-		
+		// TODO
+
 		// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
 		// correlativas (Todas las correlativas Con nota >=4
 		return true;
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	}
 
 	public Boolean registrarNota(Integer id, Integer dni, Nota nota) {
@@ -306,12 +280,9 @@ public class Uni {
 		Profe profe = buscarProfe(dni);
 		ProfeCurso profeCurso = new ProfeCurso(curso, profe);
 		if (curso != null && profe != null) {
-			
-			
-			//TODO revisar el metodo un profeCada20
-			if (ProfeEnOotroCursoAlMismoHorario(profe, curso) == false
-					//&& UnoProfeCada20(curso)
-					) {
+
+			// TODO revisar el metodo un profeCada20
+			if (ProfeEnOotroCursoAlMismoHorario(profe, curso) == false && sePuedeAsignarOtroProfe(curso)) {
 				profesAsignados.add(profeCurso);
 				aux = true;
 			}
@@ -321,17 +292,28 @@ public class Uni {
 
 	}
 
-	private boolean UnoProfeCada20(Curso curso) {
-		Integer ProfesDelCurso = cuantosProfesCursanUnCurso(curso);
-		Integer AlumnosDelCurso =cuantosAlumnoCursanUnCurso(curso);
-						
-		if(ProfesDelCurso!=0 &&AlumnosDelCurso!=0 && (AlumnosDelCurso/ProfesDelCurso) <20) {
+	// Cada 20 alumnos se debe agregar un docente ejemplo de 1 a 20 alumnos solo se
+	// puede asignar un docente, de 21 a 40 2 docentes
+	private boolean sePuedeAsignarOtroProfe(Curso curso) {
+		Integer profesDelCurso = cuantosProfesCursanUnCurso(curso);
+		Integer alumnosDelCurso = cuantosAlumnoCursanUnCurso(curso);
+
+		// alumnosDelCurso = 41;
+		// profesDelCurso = 2;
+
+		for (int i = profesDelCurso; alumnosDelCurso > 20; i--) {
+			alumnosDelCurso = alumnosDelCurso - 20;
+			profesDelCurso--;
+
+		}
+
+		if (alumnosDelCurso > 0 && profesDelCurso == 0) {
 			return true;
-		}		
+		}
+
 		return false;
+
 	}
-
-
 
 	public Integer cuantosAlumnoCursanUnCurso(Curso curso) {
 		Integer ContadorProfes = 0;
@@ -339,7 +321,8 @@ public class Uni {
 			if (alumnosAsignados.get(i).getCurso().equals(curso)) {
 				ContadorProfes++;
 			}
-		}return ContadorProfes;
+		}
+		return ContadorProfes;
 	}
 
 	public Integer cuantosProfesCursanUnCurso(Curso curso) {
@@ -348,7 +331,8 @@ public class Uni {
 			if (profesAsignados.get(i).getCurso().equals(curso)) {
 				ContadorProfes++;
 			}
-		}return ContadorProfes;
+		}
+		return ContadorProfes;
 	}
 
 	private boolean ProfeEnOotroCursoAlMismoHorario(Profe profe, Curso curso) {
@@ -366,9 +350,6 @@ public class Uni {
 		return aux;
 	}
 
-	
-	
-	
 	private boolean alumnoInscriptoMismoDiaYturno(Alumno alumno, Curso curso) {
 		boolean aux = false;
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
@@ -383,7 +364,5 @@ public class Uni {
 
 		return aux;
 	}
-	
-	
-	
+
 }
