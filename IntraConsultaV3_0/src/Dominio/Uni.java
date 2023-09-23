@@ -182,7 +182,7 @@ public class Uni {
 		Materia materia = buscarMateria(id);
 		Materia materia2 = buscarMateria(id2);
 
-		if (materia != null && materia2 != null) {
+		if (materia != null && materia2 != null && materia.getCorrelativas().contains(materia2)) {
 			return materia.getCorrelativas().remove(materia2);
 
 		}
@@ -209,8 +209,8 @@ public class Uni {
 		if (alumnoInscriptoMismoDiaYturno(alumno, curso)) {
 			return false;
 		}
-
-		if (!alumnoTieneCorrelativasAprobadas(alumno, curso)) {
+			
+		if (alumnoTieneCorrelativasAprobadas(alumno, curso)) {
 			return false;
 		}
 		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
@@ -234,48 +234,54 @@ public class Uni {
 
 	}
 
+	
+	
+			//	TODO
 	// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
 	// correlativas (Todas las correlativas Con nota >=4
 	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Curso curso) {
+		if (buscarAlumnoCurso(alumno, curso) != null) {
+			AlumnoCurso aC = buscarAlumnoCurso(alumno, curso);
+			ArrayList<Materia> materiasAux = curso.getMateria().getCorrelativas();
+			for (int i = 0; i < materiasAux.size(); i++) {
 
-		// TODO CAMBIAR PARA TESTEAR CON TODAS LAS CORRELATIVAS
-		if (buscarAlumnoCurso(alumno, curso) != null
-				&& buscarAlumnoCurso(alumno, curso).mostrarCondFinal().equals(CondFinal.Desaprobado)) {
-			return false;
+				if (obtenerCondFinal(alumno.getDni(), materiasAux.get(i).getId()).equals(CondFinal.Promocionado)) {
+
+					return true;
+
+				}
+
+			}
+
 		}
-
-		return true;
-
+		return false;
 	}
 
 	public AlumnoCurso buscarAlumnoCurso(Alumno alumno, Curso curso) {
-		AlumnoCurso aux = null;
+		AlumnoCurso aux = new AlumnoCurso(alumno, curso);
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
 
-			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
-					&& alumnosAsignados.get(i).getCurso().equals(curso)) {
-				aux = alumnosAsignados.get(i);
+			if (alumnosAsignados.contains(aux)) {
+
+				return aux;
 			}
 		}
-
-		return aux;
+		return null;
 	}
 
-	public Boolean registrarNota(Integer id, Integer dni, Nota nota) {
+	public Boolean registrarNota(Integer id, Integer dni, Integer nota , TipoNota tipoNota) {
 		boolean ret = false;
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
 		AlumnoCurso aux = new AlumnoCurso(alumno, curso);
-		TipoNota tipoNota=nota.getTipoNota();
 		
-			
 
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
 
 			if (alumnosAsignados.get(i).equals(aux)) {
-				alumnosAsignados.get(i).setNota(nota);
-				ret =true;
-				
+				alumnosAsignados.get(i).getNota().setNota(nota, tipoNota);
+				ret = true;
+
 			}
 
 		}
@@ -284,7 +290,7 @@ public class Uni {
 
 	}
 
-	public Nota obtenerNota(Integer dni, Integer id ,TipoNota tipoNota) {
+	public Nota obtenerNota(Integer dni, Integer id, TipoNota tipoNota) {
 		Alumno alumno = buscarAlumno(dni);
 		Materia materia = buscarMateria(id);
 
@@ -294,11 +300,29 @@ public class Uni {
 
 			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
 					&& alumnosAsignados.get(i).getCurso().getMateria().equals(materia)) {
-				nota = alumnosAsignados.get(i).getnota(tipoNota);
+				nota = alumnosAsignados.get(i).getNota();
 			}
 
 		}
 		return nota;
+	}
+
+	public CondFinal obtenerCondFinal(Integer dni, Integer id) {
+		Alumno alumno = buscarAlumno(dni);
+		Materia materia = buscarMateria(id);
+
+		CondFinal aux = CondFinal.todaviaNoCursado;
+
+		for (int i = 0; i < alumnosAsignados.size(); i++) {
+
+			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
+					&& alumnosAsignados.get(i).getCurso().getMateria().equals(materia)) {
+				aux = alumnosAsignados.get(i).getNota().mostrarCondFinal();
+				
+			}
+
+		}
+		return aux;
 
 	}
 
@@ -309,7 +333,6 @@ public class Uni {
 		ProfeCurso profeCurso = new ProfeCurso(curso, profe);
 		if (curso != null && profe != null) {
 
-			
 			if (ProfeEnOotroCursoAlMismoHorario(profe, curso) == false && sePuedeAsignarOtroProfe(curso)) {
 				profesAsignados.add(profeCurso);
 				aux = true;
@@ -381,9 +404,7 @@ public class Uni {
 	private boolean alumnoInscriptoMismoDiaYturno(Alumno alumno, Curso curso) {
 		boolean aux = false;
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
-			if (
-					alumnosAsignados.get(i)!= null&&
-							alumnosAsignados.get(i).getAlumno().equals(alumno)
+			if (alumnosAsignados.get(i) != null && alumnosAsignados.get(i).getAlumno().equals(alumno)
 					&& alumnosAsignados.get(i).getCurso().getHorario().equals(curso.getHorario())
 					&& alumnosAsignados.get(i).getCurso().getDias().equals(curso.getDias())) {
 

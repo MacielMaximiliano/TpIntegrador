@@ -1,5 +1,5 @@
 package Dominio;
 
 public enum CondFinal {
-Desaprobado , Cursado ,Promocionado
+Desaprobado , Cursado ,Promocionado,todaviaNoCursado
 }
