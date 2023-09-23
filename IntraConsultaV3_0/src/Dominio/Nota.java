@@ -1,84 +1,59 @@
 package Dominio;
 
+import java.util.Objects;
+
 public class Nota {
 	private static Integer idSt = 1;
 	private Integer id;
-	private Integer parcial1;
-	private Integer parcial2;
-	private boolean notaRecuperada;
+	private TipoNota tipoNota;
+	private Integer valor;
 
-	private Integer Final;
-
-	public Nota() {
+	public Nota(TipoNota tipoNota) {
 		this.id = idSt++;
-		this.parcial1 = 0;
-		this.parcial2 = 0;
-		this.notaRecuperada = false;
+		this.tipoNota = tipoNota;
 	}
 
-	public Integer getParcial() {
-		return parcial1;
+	public TipoNota getTipoNota() {
+		return tipoNota;
 	}
 
-	public void setParcial(Integer parcial) {
-		this.parcial1 = parcial;
+	public void setTipoNota(TipoNota tipoNota) {
+		this.tipoNota = tipoNota;
 	}
 
-	public Integer getParcial2() {
-		return parcial2;
+	public Integer getValor() {
+		return valor;
 	}
 
-	public void setParcial2(Integer parcial2) {
-		this.parcial2 = parcial2;
+	public void setValor(Integer valor) {
+		this.valor = valor;
 	}
 
-	public Integer getFinal() {
-		return Final;
-	}
-
-	public boolean recuperarNota1(Integer nota) {
-		if (!notaRecuperada) {
-			notaRecuperada = true;
-			parcial1 = nota;
-		}
-		return notaRecuperada;
-	}
-
-	public boolean recuperarNota2(Integer nota) {
-		if (!notaRecuperada) {
-			notaRecuperada = true;
-			parcial2 = nota;
-		}
-		return notaRecuperada;
-
-	}
-	private boolean puedeRecuperar() {
-		if (parcial1 <=4 || parcial2 <=4) {
-			return true;
-		}
-		return false;
-
-	}
-
-	public CondFinal mostrarCondFinal() {
-		// para cargar la nota final, debe tener aprobadas las parciales
-	if(parcial1 >=4 && parcial2 >=4) {	
-		if (parcial1 >= 7 && parcial2 >= 7) {
-			return CondFinal.Promocionado;
-		}
-		if (parcial1 >= 4 && parcial2 >= 4) {
-			return CondFinal.Cursado;
-		}
-
-	}
-	return CondFinal.Desaprobado;
-	}
 	
-	
-	
+
+	public Integer getId() {
+		return id;
+	}
+
 	@Override
-	public String toString() {
-		return "Nota [parcial=" + parcial1 + ", parcial2=" + parcial2 + ", Final=" + Final + "]";
-	};
+	public int hashCode() {
+		return Objects.hash(tipoNota, valor);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Nota other = (Nota) obj;
+		return tipoNota == other.tipoNota && Objects.equals(valor, other.valor);
+	}
+
+
+
+
 
 }

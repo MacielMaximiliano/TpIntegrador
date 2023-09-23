@@ -7,7 +7,10 @@ public class AlumnoCurso {
 	private Integer id;
 	private Alumno alumno;
 	private Curso curso;
-	private Nota nota;
+	private Nota parcial1;
+	private Nota parcial2;
+	private Nota nFinal;
+	private boolean notaRecuperada;
 
 	private static Integer cod = 1;
 
@@ -16,7 +19,10 @@ public class AlumnoCurso {
 		this.alumno = alumno;
 		this.curso = curso;
 		this.id = cod++;
-		this.nota=null;
+		this.parcial1 = null;
+		this.parcial2 = null;
+		this.notaRecuperada = false;
+
 	}
 
 	public Alumno getAlumno() {
@@ -52,15 +58,80 @@ public class AlumnoCurso {
 		return Objects.equals(alumno, other.alumno) && Objects.equals(curso, other.curso);
 	}
 
-	
+	public CondFinal mostrarCondFinal() {
+		// para cargar la nota final, debe tener aprobadas las parciales
+		if (parcial1.getValor() >= 4 && parcial2.getValor() >= 4) {
+			if (parcial1.getValor() >= 7 && parcial2.getValor() >= 7) {
+				return CondFinal.Promocionado;
+			}
+			if (parcial1.getValor() >= 4 && parcial2.getValor() >= 4) {
+				return CondFinal.Cursado;
+			}
 
-	public Nota getNota() {
-		return nota;
+		}
+		return CondFinal.Desaprobado;
 	}
 
-	public Boolean setNota(Nota nota) {
-		this.nota = nota;
-		return true;
+	private boolean recuperarNota1(Nota nota) {
+		if (!notaRecuperada) {
+			notaRecuperada = true;
+			parcial1 = nota;
+		}
+		return notaRecuperada;
 	}
 
+	private boolean recuperarNota2(Nota nota) {
+		if (!notaRecuperada) {
+			notaRecuperada = true;
+			parcial2 = nota;
+		}
+		return notaRecuperada;
+
+	}
+
+	private boolean puedeRecuperar() {
+		if (parcial1.getValor() <= 4 || parcial2.getValor() <= 4) {
+			return true;
+		}
+		return false;
+
+	}
+
+	public Nota getnota(TipoNota tipoNota) {
+		switch (tipoNota) {
+		case PrimerParcial:
+			return this.parcial1;
+
+		case SegundoParcial:
+			return this.parcial2;
+
+		default:
+			return nFinal;
+
+		}
+
+	}
+
+	public void setNota(Nota nota) {
+		TipoNota tipoNota = nota.getTipoNota();
+		switch (tipoNota) {
+		case PrimerParcial:
+			this.parcial1 = nota;
+				break;
+		case SegundoParcial:
+			this.parcial2 = nota;
+				break;
+				
+		case Recuperatorio1:
+			recuperarNota1(nota);
+				break;
+				
+		case Recuperatorio2:
+			recuperarNota2(nota);
+				break;	
+		default:
+			break;
+		}
+
+	}
 }

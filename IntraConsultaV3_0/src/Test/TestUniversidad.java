@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -34,8 +35,8 @@ public class TestUniversidad {
 		// Preparacion
 		Uni uni = new Uni("unlam");
 		Materia materia = new Materia("pbi");
-		Materia materia2 = new Materia("pbi");
 		uni.registrarMateria(materia);
+		Materia materia2 = new Materia("pbi");
 		// validacion
 		assertFalse(uni.registrarMateria(materia2));
 		assertFalse(uni.registrarMateria(materia));
@@ -49,8 +50,8 @@ public class TestUniversidad {
 		String nombre = "maxi";
 		String apellido = "Maciel";
 		Integer dni = 36183763;
-		LocalDate fechaNac = LocalDate.of(1990,12,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 , 4 , 20);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 4, 20);
 
 		Uni uni = new Uni("unlam");
 		Alumno alumno = new Alumno(dni, apellido, nombre, fechaNac, fechaIngreso);
@@ -66,8 +67,8 @@ public class TestUniversidad {
 		String nombre = "maxi";
 		String apellido = "Maciel";
 		Integer dni = 36183763;
-		LocalDate fechaNac = LocalDate.of(1990,12,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 , 4 , 20);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 4, 20);
 
 		Uni uni = new Uni("unlam");
 		Alumno alumno = new Alumno(dni, apellido, nombre, fechaNac, fechaIngreso);
@@ -87,12 +88,12 @@ public class TestUniversidad {
 		// CicloLectivo . Id, fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo,
 		// fechaInicioInscripcion, fechaFinalizacionInscripcion
 		// Preparacion
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(1990, 12, 31);
 		Uni uni = new Uni("unlam");
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
@@ -106,24 +107,22 @@ public class TestUniversidad {
 	public void queNoSePuedaAgregarCicloLectivo() {
 
 		// Preparacion
-		
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 2023 ,1 ,1);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 2023 ,2 ,2);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(2023, 1, 1);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(2023, 2, 2);
+		LocalDate fechaInicioInscripcion = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(1990, 12, 31);
 		Uni uni = new Uni("unlam");
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 
-		LocalDate fechaInicioCicloLectivo2 =LocalDate.of( 2023 ,1 ,1);
-		LocalDate fechaFinalizacionCicloLectivo2 = LocalDate.of( 2023 ,2 ,2);
-		LocalDate fechaInicioInscripcion2 = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion2 = LocalDate.of( 1990 ,12 ,31);
-		
-		
-		
-		Ciclo ciclo2 = new Ciclo(fechaInicioCicloLectivo2, fechaFinalizacionCicloLectivo2,
-				fechaInicioInscripcion2, fechaFinalizacionInscripcion2);
+		LocalDate fechaInicioCicloLectivo2 = LocalDate.of(2023, 1, 1);
+		LocalDate fechaFinalizacionCicloLectivo2 = LocalDate.of(2023, 2, 2);
+		LocalDate fechaInicioInscripcion2 = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionInscripcion2 = LocalDate.of(1990, 12, 31);
+
+		Ciclo ciclo2 = new Ciclo(fechaInicioCicloLectivo2, fechaFinalizacionCicloLectivo2, fechaInicioInscripcion2,
+				fechaFinalizacionInscripcion2);
 
 		// validacion
 		assertTrue(uni.registrarCicloLect(ciclo));
@@ -139,8 +138,8 @@ public class TestUniversidad {
 		String nombre = "maxi";
 		String apellido = "Maciel";
 		Integer dni = 36183763;
-		LocalDate fechaNac = LocalDate.of(1990,12,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 , 4 , 20);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 4, 20);
 		Uni uni = new Uni("unlam");
 		Profe profe = new Profe(dni, apellido, nombre, fechaNac, fechaIngreso);
 
@@ -155,8 +154,8 @@ public class TestUniversidad {
 		String nombre = "maxi";
 		String apellido = "Maciel";
 		Integer dni = 36183763;
-		LocalDate fechaNac = LocalDate.of(1990,12,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 , 4 , 20);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 4, 20);
 
 		Uni uni = new Uni("unlam");
 		Profe profe = new Profe(dni, apellido, nombre, fechaNac, fechaIngreso);
@@ -208,12 +207,12 @@ public class TestUniversidad {
 		// Comisión id, Materia, y cicloLectivo, Turno
 		// Preparacion
 		Uni uni = new Uni("unlam");
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(1990, 12, 31);
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Integer cantAlumn = 100;
@@ -221,7 +220,6 @@ public class TestUniversidad {
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Lun_Mie;
 
-		
 		Ciclo ciclo2 = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 
@@ -254,12 +252,12 @@ public class TestUniversidad {
 		// Comisión id, Materia, y cicloLectivo, Turno
 		// Preparacion
 		Uni uni = new Uni("unlam");
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(1990, 12, 31);
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Integer cantAlumn = 100;
@@ -267,7 +265,6 @@ public class TestUniversidad {
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Lun_Mie;
 
-		
 		Ciclo ciclo2 = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 
@@ -295,7 +292,6 @@ public class TestUniversidad {
 
 	public void AgregarMateriasCorrelatibas() {
 
-		
 		// AsiganarMateriaCorrelativa (código Materia, código DeMateria Correlativa)
 		// Preparacion
 		Uni uni = new Uni("unlam");
@@ -306,24 +302,16 @@ public class TestUniversidad {
 		assertTrue(uni.registrarMateria(materia));
 		assertTrue(uni.registrarMateria(materia2));
 		assertTrue(uni.registrarMateria(materia3));
-	
+
 		assertTrue(uni.agregarCorrelativas(materia.getId(), materia3.getId()));
 		Materia materiaEssperada = uni.buscarMateria(materia.getId());
 		assertTrue(uni.agregarCorrelativas(materia.getId(), materia2.getId()));
-		
-		assertTrue(  materiaEssperada.getCorrelativas().contains(materia3));
-		
-		//assertTrue(  materiaEssperada.getCorrelativas().contains(materia3));
-		
-	
-		
-		
 
-		
+		assertTrue(materiaEssperada.getCorrelativas().contains(materia3));
+
+		// assertTrue( materiaEssperada.getCorrelativas().contains(materia3));
 
 	}
-
-	
 
 	@Test
 	public void eliminarcorrelativas() {
@@ -335,17 +323,13 @@ public class TestUniversidad {
 		assertTrue(uni.registrarMateria(materia));
 		assertTrue(uni.registrarMateria(materia2));
 		assertTrue(uni.registrarMateria(materia3));
-	
+
 		assertTrue(uni.agregarCorrelativas(materia.getId(), materia3.getId()));
 		Materia materiaEssperada = uni.buscarMateria(materia.getId());
-		assertTrue(  materiaEssperada.getCorrelativas().contains(materia3));
-		
+		assertTrue(materiaEssperada.getCorrelativas().contains(materia3));
 
 		assertTrue(uni.eliminarCorrelativa(materia.getId(), materia3.getId()));
-		assertFalse(  materiaEssperada.getCorrelativas().contains(materia3));
-		
-		
-		
+		assertFalse(materiaEssperada.getCorrelativas().contains(materia3));
 
 	}
 
@@ -355,18 +339,19 @@ public class TestUniversidad {
 
 		// Preparacion
 		Uni uni = new Uni("unlam");
-		
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
-		
+
 		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Materia materia = new Materia("pbi");
 		Aula aula = new Aula(1, 10);
@@ -390,18 +375,19 @@ public class TestUniversidad {
 
 		// Preparacion
 		Uni uni = new Uni("unlam");
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
 		;
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
-		
+
 		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Alumno alumno2 = new Alumno(36, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Alumno alumno3 = new Alumno(361, "maxi", "Maciel", fechaNac, fechaIngreso);
@@ -421,34 +407,32 @@ public class TestUniversidad {
 		uni.registrarCurso(curso);
 
 		// validacion
+		// No se puede inscribir el alumno si excede la cantidad de alumnos permitos en
+		// el aula
+		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
+		// No se puede inscribir el Alumno si ya está inscripto a otro curso para el
+		// mismo día y Turno
 		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId()));
 		assertTrue(uni.inscribirAlumnoACurso(alumno2.getDni(), curso.getId()));
 		assertTrue(uni.inscribirAlumnoACurso(alumno3.getDni(), curso.getId()));
-		// No se puede inscribir el alumno si excede la cantidad de alumnos permitos en  el aula
-		assertFalse(uni.inscribirAlumnoACurso(alumno3.getDni(), curso.getId()));		
-		// TODO
-		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
-		// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
-		// correlativas (Todas las correlativas Con nota >=4
-		// No se puede inscribir el Alumno si ya está inscripto a otro curso para el
-		// mismo día y Turno
+		assertFalse(uni.inscribirAlumnoACurso(alumno3.getDni(), curso.getId()));
 	}
 
 	@Test
 	public void RegistrarNotaAAlumnoACurso() {
 		// Preparacion
 		Uni uni = new Uni("unlam");
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
-		
+
 		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Materia materia = new Materia("pbi");
 		Aula aula = new Aula(1, 10);
@@ -461,38 +445,35 @@ public class TestUniversidad {
 		uni.registrarAlumno(alumno);
 		uni.registrarCurso(curso);
 		uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId());
-		Nota nota = new Nota ();
+		Nota nota = new Nota(TipoNota.PrimerParcial);
 		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), nota));
-		
+
 		// registrarNota (idComision, idAlumno, nota)
-		
-		//TODO
+
+		// TODO
 		// La nota debe estar entre 1 y 10
 		// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
 		// correlativas aprobadas (Mayor o igual a 7)
-		
-		
-		
+
 	}
 
 	@Test
 	public void obtenerNota() {
 
-		
 		// obtenerNota(idAlumno, idMateria)
 		Uni uni = new Uni("unlam");
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
-		
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
+
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
-		
+
 		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Materia materia = new Materia("pbi");
 		Aula aula = new Aula(1, 10);
@@ -502,43 +483,41 @@ public class TestUniversidad {
 		uni.registrarAula(aula);
 		uni.registrarMateria(materia);
 		uni.registrarCicloLect(ciclo);
-		
+
 		uni.registrarAlumno(alumno);
 		uni.registrarCurso(curso);
 		uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId());
-		Nota nota = new Nota ();
+		Nota nota = new Nota(TipoNota.PrimerParcial);
 		uni.registrarNota(curso.getId(), alumno.getDni(), nota);
-		
-		
-		assertEquals( nota,uni.obtenerNota(alumno.getDni(), materia.getId()));
-		//uni.obtenerNota(alumno.getDni(), materia.getId());
-		
-		
+		TipoNota tipoNota = TipoNota.PrimerParcial;
+		assertEquals(nota.getValor(), uni.obtenerNota(alumno.getDni(), materia.getId(),tipoNota).getValor());
+		// uni.obtenerNota(alumno.getDni(), materia.getId());
+
 	}
-	
+
 	@Test
 	public void asignarProfeCurso() {
-		
+
 		Uni uni = new Uni("unlam");
-		LocalDate fechaNac = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaIngreso = LocalDate.of(2022 ,12 ,31);
-		LocalDate fechaInicioCicloLectivo =LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaInicioInscripcion = LocalDate.of( 1990 ,12 ,31);
-		LocalDate fechaFinalizacionInscripcion = LocalDate.of( 1990 ,12 ,31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
 		;
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
 		Dias dias2 = Dias.Mar_Jue;
-		
+
 		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Materia materia = new Materia("pbi");
 		Materia materia2 = new Materia("pb2");
 		Aula aula = new Aula(1, 10);
 
-		Profe profe = new Profe (141, "ads", "adas", fechaNac, fechaNac);
+		Profe profe = new Profe(141, "ads", "adas", fechaNac, fechaNac);
 		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
 		Curso curso2 = new Curso(aula, ciclo, materia, turno, dias2);
 
@@ -551,43 +530,88 @@ public class TestUniversidad {
 		uni.registrarCurso(curso);
 		uni.registrarCurso(curso2);
 		uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId());
-		Nota nota = new Nota ();
+		Nota nota = new Nota(TipoNota.PrimerParcial);
 		uni.registrarNota(curso.getId(), alumno.getDni(), nota);
 		// AsignarProfesoresALCurso(idCurso, dniDocente)
-		
+
 		Integer a = 1;
 		assertTrue(uni.asignarProfesoresALCurso(curso.getId(), profe.getDni()));
 		assertFalse(uni.asignarProfesoresALCurso(curso2.getId(), profe.getDni()));
-		
-		//test contador alumno curso
-		assertEquals(uni.cuantosAlumnoCursanUnCurso(curso) ,a);
-		//test contador profe curso
-		assertEquals(uni.cuantosProfesCursanUnCurso(curso) ,a);
-		
-		
-	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
+		// test contador alumno curso
+		assertEquals(uni.cuantosAlumnoCursanUnCurso(curso), a);
+		// test contador profe curso
+		assertEquals(uni.cuantosProfesCursanUnCurso(curso), a);
+
+	}
 
 	@Test
 	public void obtenerListadoMateriasAprobadasParaUnAlumno() {
 		// TODO
 
 		// obtenerListadoMateriasAprobadasParaUnAlumno(idAlumno)
+		
+		//preparacion
+		Uni uni = new Uni("unlam");
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
+		;
+		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
+				fechaFinalizacionInscripcion);
+		
+		
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
+		uni.registrarAlumno(alumno);
+		
+		
+		Turno turno = Turno.Mañana;
+		Dias dias = Dias.Mar_Jue;
+		Dias dias2 = Dias.Lun_Mie;
+		Dias dias3 = Dias.Mar_Sab;
+		Dias dias4= Dias.Mie_Vie;
+
+		Aula aula = new Aula(1, 10);
+		
+		Materia materia = new Materia("pbi");
+		Materia materia2 = new Materia("informatica");
+		Materia materia3 = new Materia("ingles");
+		Materia materia4 = new Materia("matematica");
+		assertTrue(uni.registrarMateria(materia));
+		assertTrue(uni.registrarMateria(materia2));
+		assertTrue(uni.registrarMateria(materia3));
+		assertTrue(uni.registrarMateria(materia4));
+		
+		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
+		Curso curso2 = new Curso(aula, ciclo, materia2, turno, dias2);
+		Curso curso3 = new Curso(aula, ciclo, materia3, turno, dias3);
+		Curso curso4 = new Curso(aula, ciclo, materia4, turno, dias4);
+		
+		assertTrue(uni.registrarCurso(curso));
+		assertTrue(uni.registrarCurso(curso2));
+		assertTrue(uni.registrarCurso(curso3));
+		assertTrue(uni.registrarCurso(curso4));
+		
+	
+		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId()));
+		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso2.getId()));
+		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso3.getId()));
+		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso4.getId()));
+		
+		//falta calificar los cursos
+		//falta agregar el metodo q compara curso alumno con el array de materias filtrando las aprobadas
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	@Test
@@ -603,19 +627,11 @@ public class TestUniversidad {
 		// ObtenerPROMEDIODeNotasDeAumnosDeCurso(idCurso)
 
 	}
-	
-	
-	
-			//TODO
-			// La nota debe estar entre 1 y 10
-			// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
-			// correlativas aprobadas (Mayor o igual a 7)
-			
-			
-			
 
-		
+	// TODO
+	// La nota debe estar entre 1 y 10
 
-		
-			
+	// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
+	// correlativas aprobadas (Mayor o igual a 7)
+
 }

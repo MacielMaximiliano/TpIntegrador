@@ -7,6 +7,8 @@ import java.util.Objects;
 public class Materia {
 	private String nombre;
 	private Integer id;
+	
+	
 	private ArrayList<Materia> correlativas;
 
 	private static Integer idSt = 1;
@@ -14,6 +16,7 @@ public class Materia {
 	public Materia(String string) {
 		this.nombre = string;
 		this.id = idSt;
+	
 		correlativas = new ArrayList<Materia>();
 	}
 

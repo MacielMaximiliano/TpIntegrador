@@ -1,5 +1,6 @@
 package Dominio;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Uni {
@@ -188,9 +189,6 @@ public class Uni {
 		return false;
 	}
 
-	// TODO
-	// La inscripción no se puede realizar si esta fuera de fecha Inscripción
-
 	public Boolean inscribirAlumnoACurso(Integer dni, Integer id) {
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
@@ -212,9 +210,10 @@ public class Uni {
 			return false;
 		}
 
-		if (!alumnoTieneCorrelativasAprobadas(alumno, curso.getMateria())) {
+		if (!alumnoTieneCorrelativasAprobadas(alumno, curso)) {
 			return false;
 		}
+		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
 		if (!estaEnFechaDeInscripcion(curso)) {
 			return false;
 		}
@@ -224,39 +223,68 @@ public class Uni {
 	}
 
 	private boolean estaEnFechaDeInscripcion(Curso curso) {
-		// TODO 
+
 		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
-		return true;
+
+		boolean despues = curso.getCiclo().getFechaFinalizacionInscripcion().isBefore(LocalDate.now());
+
+		boolean antes = curso.getCiclo().getFechaInicioInscripcion().isAfter(LocalDate.now());
+
+		return !(despues || antes);
+
 	}
 
-	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Materia materia) {
-		// TODO
+	// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
+	// correlativas (Todas las correlativas Con nota >=4
+	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Curso curso) {
 
-		// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
-		// correlativas (Todas las correlativas Con nota >=4
+		// TODO CAMBIAR PARA TESTEAR CON TODAS LAS CORRELATIVAS
+		if (buscarAlumnoCurso(alumno, curso) != null
+				&& buscarAlumnoCurso(alumno, curso).mostrarCondFinal().equals(CondFinal.Desaprobado)) {
+			return false;
+		}
+
 		return true;
 
+	}
+
+	public AlumnoCurso buscarAlumnoCurso(Alumno alumno, Curso curso) {
+		AlumnoCurso aux = null;
+		for (int i = 0; i < alumnosAsignados.size(); i++) {
+
+			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
+					&& alumnosAsignados.get(i).getCurso().equals(curso)) {
+				aux = alumnosAsignados.get(i);
+			}
+		}
+
+		return aux;
 	}
 
 	public Boolean registrarNota(Integer id, Integer dni, Nota nota) {
+		boolean ret = false;
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
 		AlumnoCurso aux = new AlumnoCurso(alumno, curso);
+		TipoNota tipoNota=nota.getTipoNota();
+		
+			
 
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
 
 			if (alumnosAsignados.get(i).equals(aux)) {
-				// TODO revisar esto
-				return alumnosAsignados.get(i).setNota(nota);
+				alumnosAsignados.get(i).setNota(nota);
+				ret =true;
+				
 			}
 
 		}
 
-		return false;
+		return ret;
 
 	}
 
-	public Nota obtenerNota(Integer dni, Integer id) {
+	public Nota obtenerNota(Integer dni, Integer id ,TipoNota tipoNota) {
 		Alumno alumno = buscarAlumno(dni);
 		Materia materia = buscarMateria(id);
 
@@ -266,7 +294,7 @@ public class Uni {
 
 			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
 					&& alumnosAsignados.get(i).getCurso().getMateria().equals(materia)) {
-				nota = alumnosAsignados.get(i).getNota();
+				nota = alumnosAsignados.get(i).getnota(tipoNota);
 			}
 
 		}
@@ -281,7 +309,7 @@ public class Uni {
 		ProfeCurso profeCurso = new ProfeCurso(curso, profe);
 		if (curso != null && profe != null) {
 
-			// TODO revisar el metodo un profeCada20
+			
 			if (ProfeEnOotroCursoAlMismoHorario(profe, curso) == false && sePuedeAsignarOtroProfe(curso)) {
 				profesAsignados.add(profeCurso);
 				aux = true;
@@ -353,7 +381,9 @@ public class Uni {
 	private boolean alumnoInscriptoMismoDiaYturno(Alumno alumno, Curso curso) {
 		boolean aux = false;
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
-			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
+			if (
+					alumnosAsignados.get(i)!= null&&
+							alumnosAsignados.get(i).getAlumno().equals(alumno)
 					&& alumnosAsignados.get(i).getCurso().getHorario().equals(curso.getHorario())
 					&& alumnosAsignados.get(i).getCurso().getDias().equals(curso.getDias())) {
 
