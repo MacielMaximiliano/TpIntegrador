@@ -6,9 +6,6 @@ public class Nota {
 	private static Integer idSt = 1;
 	private Integer id;
 	
-	
-	
-	
 	private boolean notaRecuperada;
 	private Integer parcial1 ;	// lo dejo asi con 2 7 ahi y anda todo perfecto
 	private Integer parcial2 ;

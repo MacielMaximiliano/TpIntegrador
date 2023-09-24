@@ -64,15 +64,18 @@ public class Uni {
 
 	}
 
-	public Alumno buscarAlumno(Integer dni) {
-		Alumno aux = null;
-		for (int i = 0; i < alumnos.size(); i++) {
-			if (alumnos.get(i).getDni() == dni) {
-				aux = alumnos.get(i);
+	/*
+	 * public Alumno buscarAlumno(Integer dni) { Alumno aux = null; for (int i = 0;
+	 * i < alumnos.size(); i++) { if (alumnos.get(i).getDni() == dni) { aux =
+	 * alumnos.get(i); } } return aux; }
+	 */
+	public Alumno buscarAlumnoPorDni(Integer dniAlumno) {
+		for (Alumno alumno : alumnos) {
+			if (alumno.getDni() == dniAlumno) {
+				return alumno;
 			}
 		}
-
-		return aux;
+		return null;
 	}
 
 	public Boolean registrarCicloLect(Ciclo ciclo) {
@@ -147,19 +150,16 @@ public class Uni {
 	}
 
 	
-		//TODO
 	// No se Pueden generar 2 Comisiones para la misma materia, el mismo
 	// cicloLectivo y el mismo turno
 	public Boolean registrarCurso(Curso curso) {
 
-		 
-			if (cursos.contains(curso)) {
-				return false;
-			}
-			return cursos.add(curso);
+		if (cursos.contains(curso) || buscarMateria(curso.getMateria().getId()) == null) {
+			return false;
 		}
-		
 
+		return cursos.add(curso);
+	}
 
 	public Curso buscarCurso(Integer idCurso) {
 		Curso aux = null;
@@ -196,10 +196,10 @@ public class Uni {
 	}
 
 	public Boolean inscribirAlumnoACurso(Integer dni, Integer id) {
-		Alumno alumno = buscarAlumno(dni);
+		Alumno alumno = buscarAlumnoPorDni(dni);
 		Curso curso = buscarCurso(id);
 
-		if (alumno == null && curso == null) {
+		if (alumno == null || curso == null) {
 			return false;
 		}
 
@@ -217,12 +217,13 @@ public class Uni {
 		}
 
 		if (alumnoTieneCorrelativasAprobadas(alumno, curso)) {
-			
-			return false;	}
+
+			return false;
+		}
 		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
-		 if (!estaEnFechaDeInscripcion(curso)) {
-		 return false;
-		 }
+		if (!estaEnFechaDeInscripcion(curso)) {
+			return false;
+		}
 
 		AlumnoCurso alumnoCurso = new AlumnoCurso(alumno, curso);
 		return alumnosAsignados.add(alumnoCurso);
@@ -276,15 +277,15 @@ public class Uni {
 
 	public Boolean registrarNota(Integer id, Integer dni, Integer nota, TipoNota tipoNota) {
 
-		Alumno alumno = buscarAlumno(dni);
+		Alumno alumno = buscarAlumnoPorDni(dni);
 		Curso curso = buscarCurso(id);
-		AlumnoCurso aux = new AlumnoCurso(alumno, curso);
+		AlumnoCurso aux2 = new AlumnoCurso(alumno, curso);
 		if (nota >= 1 && nota <= 10) {
 
-			for (int i = 0; i < alumnosAsignados.size(); i++) {
+			for (AlumnoCurso aux : alumnosAsignados) {
 
-				if (alumnosAsignados.get(i).equals(aux)) {
-					return alumnosAsignados.get(i).setNota(nota, tipoNota);
+				if (aux.equals(aux2)) {
+					return aux.setNota(nota, tipoNota);
 
 				}
 
@@ -295,7 +296,7 @@ public class Uni {
 	}
 
 	public Integer obtenerNota(Integer dni, Integer id, TipoNota tipoNota) {
-		Alumno alumno = buscarAlumno(dni);
+		Alumno alumno = buscarAlumnoPorDni(dni);
 		Materia materia = buscarMateria(id);
 
 		Integer nota = null;
@@ -314,7 +315,7 @@ public class Uni {
 	}
 
 	public CondFinal obtenerCondFinal(Integer dni, Integer id) {
-		Alumno alumno = buscarAlumno(dni);
+		Alumno alumno = buscarAlumnoPorDni(dni);
 		Materia materia = buscarMateria(id);
 
 		CondFinal aux = CondFinal.todaviaNoCursado;
@@ -421,5 +422,36 @@ public class Uni {
 
 		return aux;
 	}
+
+	public ArrayList<Materia> mostrarCuantasMateriasaprobadas(Integer dni) {
+
+		ArrayList<Materia> aprobadas = new ArrayList<>();
+
+		for (Materia materia : materias) {
+			if (obtenerCondFinal(dni, materia.getId()).equals(CondFinal.Promocionado)) {
+
+				aprobadas.add(materia);
+			}
+		}
+		return aprobadas;
+	}
+	
+	public ArrayList<Materia> mostrarCuantasFaltanCursar(Integer dni) {
+
+		ArrayList<Materia> faltanCursar = new ArrayList<>();
+
+		for (Materia materia : materias) {
+			if (!obtenerCondFinal(dni, materia.getId()).equals(CondFinal.Promocionado)) {
+
+				faltanCursar.add(materia);
+			}
+		}
+		return faltanCursar;
+	}
+	
+	
+	
+	
+	
 
 }

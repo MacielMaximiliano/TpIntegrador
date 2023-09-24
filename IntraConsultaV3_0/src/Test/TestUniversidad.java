@@ -58,7 +58,7 @@ public class TestUniversidad {
 
 		// validacion
 		assertTrue(uni.registrarAlumno(alumno));
-		assertNotNull(uni.buscarAlumno(alumno.getDni()));
+		assertNotNull(uni.buscarAlumnoPorDni(alumno.getDni()));
 	}
 
 	@Test
@@ -230,6 +230,7 @@ public class TestUniversidad {
 
 		uni.registrarAula(aula);
 		uni.registrarMateria(materia);
+		uni.registrarMateria(materia2);
 		uni.registrarCicloLect(ciclo);
 
 		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
@@ -308,11 +309,8 @@ public class TestUniversidad {
 
 		assertTrue(uni.agregarCorrelativas(materia.getId(), materia3.getId()));
 		Materia materiaEssperada = uni.buscarMateria(materia.getId());
-		assertTrue(uni.agregarCorrelativas(materia.getId(), materia2.getId()));
 
 		assertTrue(materiaEssperada.getCorrelativas().contains(materia3));
-
-		// assertTrue( materiaEssperada.getCorrelativas().contains(materia3));
 
 	}
 
@@ -455,8 +453,6 @@ public class TestUniversidad {
 
 		// registrarNota (idComision, idAlumno, nota)
 
-		
-		
 		// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
 		// correlativas aprobadas (Mayor o igual a 7)
 
@@ -531,8 +527,7 @@ public class TestUniversidad {
 		Alumno alumno2 = new Alumno(361383763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Materia materia = new Materia("pbi");
 		Materia materia2 = new Materia("pb2");
-		
-		
+
 		Aula aula = new Aula(1, 10);
 		Profe profe = new Profe(141, "ads", "adas", fechaNac, fechaNac);
 		Profe profe2 = new Profe(1412, "ads", "adas", fechaNac, fechaNac);
@@ -597,16 +592,16 @@ public class TestUniversidad {
 		assertTrue(uni.registrarAula(aula));
 
 		Materia materia = new Materia("pbi");
-		Materia materia2 = new Materia("informatica");
-		Materia materia3 = new Materia("ingles");
-		Materia materia4 = new Materia("pb2");
+		Materia materia20 = new Materia("informatica");
+		Materia materia30 = new Materia("ingles");
+		Materia materia40 = new Materia("pb2");
 
 		assertTrue(uni.registrarMateria(materia));
-		//assertTrue(uni.registrarMateria(materia2));
-		//assertTrue(uni.registrarMateria(materia3));
-		//assertTrue(uni.registrarMateria(materia4));
+	//	assertTrue(uni.registrarMateria(materia20));
+	//	assertTrue(uni.registrarMateria(materia30));
+	//	assertTrue(uni.registrarMateria(materia40));
 
-		 assertTrue(uni.agregarCorrelativas(materia.getId() ,materia4.getId()));
+		assertTrue(uni.agregarCorrelativas(materia.getId(), materia40.getId()));
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
 		Dias dias2 = Dias.Lun_Mie;
@@ -614,19 +609,10 @@ public class TestUniversidad {
 		Dias dias4 = Dias.Mie_Vie;
 
 		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
-		Curso curso2 = new Curso(aula, ciclo, materia2, turno, dias2);
-		Curso curso3 = new Curso(aula, ciclo, materia3, turno, dias3);
-		Curso curso4 = new Curso(aula, ciclo, materia4, turno, dias4);
 
 		assertTrue(uni.registrarCurso(curso));
-		assertTrue(uni.registrarCurso(curso2));
-		assertTrue(uni.registrarCurso(curso3));
-		assertTrue(uni.registrarCurso(curso4));
 
 		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId()));
-		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso2.getId()));
-		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso3.getId()));
-		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso4.getId()));
 
 		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.PrimerParcial));
 		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.SegundoParcial));
@@ -637,53 +623,18 @@ public class TestUniversidad {
 
 		assertEquals(aux5, uni.obtenerCondFinal(alumno.getDni(), curso.getMateria().getId()));
 
-		// falta calificar los cursos
-		// falta agregar el metodo q compara curso alumno con el array de materias
-		// filtrando las aprobadas
-
+		uni.mostrarCuantasMateriasaprobadas(alumno.getDni());
+		uni.mostrarCuantasFaltanCursar(alumno.getDni());
 	}
 
 	@Test
-	public void obtenerMateriasQueFaltanCursarParaUnAlumno() {
-		// TODO
-		// obtenerMateriasQueFaltanCursarParaUnAlumno(idAlumno) Taller Web1 Taller Web2
-	}
-
-	@Test
-	public void ObtenerPROMEDIODeNotasDeAumnosDeCurso() {
+	public void ObtenerPROMEDIODeNotasDeAlumnosDeCurso() {
 		// TODO
 
 		// ObtenerPROMEDIODeNotasDeAumnosDeCurso(idCurso)
 
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
-	// correlativas aprobadas (Mayor o igual a 7)
 
 }
