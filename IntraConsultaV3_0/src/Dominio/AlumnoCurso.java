@@ -7,9 +7,8 @@ public class AlumnoCurso {
 	private Integer id;
 	private Alumno alumno;
 	private Curso curso;
-	
 	private Nota nota;
-	
+
 
 	private static Integer cod = 1;
 
@@ -19,16 +18,14 @@ public class AlumnoCurso {
 		this.curso = curso;
 		this.id = cod++;
 		this.nota = new Nota();
-		
 
 	}
-	
 
 	public Nota getNota() {
 		return nota;
 	}
-
-
+	
+	
 	
 
 	public Alumno getAlumno() {
@@ -64,10 +61,33 @@ public class AlumnoCurso {
 		return Objects.equals(alumno, other.alumno) && Objects.equals(curso, other.curso);
 	}
 
-	
+	public Boolean setNota(Integer nota2, TipoNota tipoNota) {
+		
+		return nota.setNota( nota2, tipoNota);
+		
+		
+		
+	}
+
+	public CondFinal mostrarCondFinal() {
+		
+		if (nota.getnota(TipoNota.PrimerParcial) >= 4 && nota.getnota(TipoNota.SegundoParcial) >= 4) {
+			if (nota.getnota(TipoNota.PrimerParcial) >= 7 && nota.getnota(TipoNota.SegundoParcial) >= 7) {
+				return CondFinal.Promocionado;
+			}
+			if (nota.getnota(TipoNota.PrimerParcial) >= 4 && nota.getnota(TipoNota.SegundoParcial) >= 4) {
+				return CondFinal.Cursado;
+			}
+
+		}
+		return CondFinal.Desaprobado;
+		
 	}
 
 	
 
+
+	
 	
 
+}

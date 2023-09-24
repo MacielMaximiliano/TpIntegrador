@@ -270,6 +270,7 @@ public class TestUniversidad {
 
 		Materia materia = new Materia("pbi");
 		Materia materia2 = new Materia("pbi");
+		Materia materia3 = new Materia("pbi");
 		Aula aula = new Aula(NumAula, cantAlumn);
 		Aula aula2 = new Aula(NumAula, cantAlumn);
 
@@ -280,12 +281,14 @@ public class TestUniversidad {
 		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
 		Curso curso2 = new Curso(aula2, ciclo, materia2, turno, dias);
 		Curso curso3 = new Curso(aula2, ciclo2, materia2, turno, dias);
+		Curso curso4 = new Curso(aula2, ciclo, materia3, turno, dias);
 
 		// validacion
 		assertTrue(uni.registrarCurso(curso));
 		assertFalse(uni.registrarCurso(curso));
 		assertFalse(uni.registrarCurso(curso2));
 		assertFalse(uni.registrarCurso(curso3));
+		assertFalse(uni.registrarCurso(curso4));
 	}
 
 	@Test
@@ -452,8 +455,8 @@ public class TestUniversidad {
 
 		// registrarNota (idComision, idAlumno, nota)
 
-		// TODO
-		// La nota debe estar entre 1 y 10
+		
+		
 		// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
 		// correlativas aprobadas (Mayor o igual a 7)
 
@@ -493,7 +496,16 @@ public class TestUniversidad {
 		uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.PrimerParcial);
 		TipoNota tipoNota = TipoNota.PrimerParcial;
 		Integer aux = 7;
-		assertEquals( aux,uni.obtenerNota(alumno.getDni(), materia.getId(),tipoNota).getnota(tipoNota));
+		assertEquals(aux, uni.obtenerNota(alumno.getDni(), materia.getId(), tipoNota));
+
+		uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.SegundoParcial);
+
+		assertEquals(aux, uni.obtenerNota(alumno.getDni(), materia.getId(), TipoNota.SegundoParcial));
+
+		CondFinal condFinal = CondFinal.Promocionado;
+
+		assertEquals(condFinal, uni.obtenerCondFinal(alumno.getDni(), materia.getId()));
+
 		// uni.obtenerNota(alumno.getDni(), materia.getId());
 
 	}
@@ -519,11 +531,11 @@ public class TestUniversidad {
 		Alumno alumno2 = new Alumno(361383763, "maxi", "Maciel", fechaNac, fechaIngreso);
 		Materia materia = new Materia("pbi");
 		Materia materia2 = new Materia("pb2");
+		
+		
 		Aula aula = new Aula(1, 10);
 		Profe profe = new Profe(141, "ads", "adas", fechaNac, fechaNac);
 		Profe profe2 = new Profe(1412, "ads", "adas", fechaNac, fechaNac);
-		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
-		Curso curso2 = new Curso(aula, ciclo, materia, turno, dias2);
 
 		uni.registrarAula(aula);
 		uni.registrarMateria(materia);
@@ -532,12 +544,14 @@ public class TestUniversidad {
 		uni.registrarAlumno(alumno);
 		uni.registrarProfe(profe);
 		uni.registrarProfe(profe2);
+		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
+		Curso curso2 = new Curso(aula, ciclo, materia, turno, dias2);
 		uni.registrarCurso(curso);
 		uni.registrarCurso(curso2);
 		uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId());
 		uni.inscribirAlumnoACurso(alumno2.getDni(), curso2.getId());
-		
-		uni.registrarNota(curso.getId(), alumno.getDni(),  7, TipoNota.PrimerParcial);
+
+		uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.PrimerParcial);
 		// AsignarProfesoresALCurso(idCurso, dniDocente)
 
 		Integer a = 1;
@@ -545,8 +559,6 @@ public class TestUniversidad {
 		assertFalse(uni.asignarProfesoresALCurso(curso2.getId(), profe.getDni()));
 		assertFalse(uni.asignarProfesoresALCurso(curso2.getId(), profe2.getDni()));
 		assertFalse(uni.asignarProfesoresALCurso(curso.getId(), profe2.getDni()));
-
-
 
 		// test contador alumno curso
 		assertEquals(uni.cuantosAlumnoCursanUnCurso(curso), a);
@@ -560,77 +572,75 @@ public class TestUniversidad {
 		// TODO
 
 		// obtenerListadoMateriasAprobadasParaUnAlumno(idAlumno)
-		
-		//preparacion
+
+		// preparacion
 		Uni uni = new Uni("unlam");
+
 		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
-		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(2023, 12, 31);
 		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
 		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
 		;
 		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
 				fechaFinalizacionInscripcion);
-		
-		
+
+		assertTrue(uni.registrarCicloLect(ciclo));
+
 		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
 		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
 		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
+
 		uni.registrarAlumno(alumno);
-		
-		
-		Turno turno = Turno.Mañana;
-		Dias dias = Dias.Mar_Jue;
-		Dias dias2 = Dias.Lun_Mie;
-		Dias dias3 = Dias.Mar_Sab;
-		Dias dias4= Dias.Mie_Vie;
 
 		Aula aula = new Aula(1, 10);
-		
+
+		assertTrue(uni.registrarAula(aula));
+
 		Materia materia = new Materia("pbi");
 		Materia materia2 = new Materia("informatica");
 		Materia materia3 = new Materia("ingles");
 		Materia materia4 = new Materia("pb2");
-		
-		
+
 		assertTrue(uni.registrarMateria(materia));
-		assertTrue(uni.registrarMateria(materia2));
-		assertTrue(uni.registrarMateria(materia3));
-		assertTrue(uni.registrarMateria(materia4));
-		
-		assertTrue(uni.agregarCorrelativas(materia.getId() ,materia4.getId()));
-		
+		//assertTrue(uni.registrarMateria(materia2));
+		//assertTrue(uni.registrarMateria(materia3));
+		//assertTrue(uni.registrarMateria(materia4));
+
+		 assertTrue(uni.agregarCorrelativas(materia.getId() ,materia4.getId()));
+		Turno turno = Turno.Mañana;
+		Dias dias = Dias.Mar_Jue;
+		Dias dias2 = Dias.Lun_Mie;
+		Dias dias3 = Dias.Mar_Sab;
+		Dias dias4 = Dias.Mie_Vie;
+
 		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
 		Curso curso2 = new Curso(aula, ciclo, materia2, turno, dias2);
 		Curso curso3 = new Curso(aula, ciclo, materia3, turno, dias3);
 		Curso curso4 = new Curso(aula, ciclo, materia4, turno, dias4);
-		
+
 		assertTrue(uni.registrarCurso(curso));
 		assertTrue(uni.registrarCurso(curso2));
 		assertTrue(uni.registrarCurso(curso3));
 		assertTrue(uni.registrarCurso(curso4));
-		
-	
+
 		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId()));
 		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso2.getId()));
 		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso3.getId()));
 		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso4.getId()));
-			
-		
-		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(),  7, TipoNota.PrimerParcial));
-		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(),  7, TipoNota.SegundoParcial));
+
+		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.PrimerParcial));
+		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.SegundoParcial));
+
+		Integer aux = 7;
+		assertEquals(aux, uni.obtenerNota(alumno.getDni(), materia.getId(), TipoNota.SegundoParcial));
 		CondFinal aux5 = CondFinal.Promocionado;
-		assertEquals(aux5 ,uni.obtenerCondFinal(alumno.getDni(),curso.getMateria().getId()));
-		//falta calificar los cursos
-		//falta agregar el metodo q compara curso alumno con el array de materias filtrando las aprobadas
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		assertEquals(aux5, uni.obtenerCondFinal(alumno.getDni(), curso.getMateria().getId()));
+
+		// falta calificar los cursos
+		// falta agregar el metodo q compara curso alumno con el array de materias
+		// filtrando las aprobadas
+
 	}
 
 	@Test
@@ -648,7 +658,31 @@ public class TestUniversidad {
 	}
 
 	
+	
+	
+	
+	
+	
+	
+	
 
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// No se puede asignar Una nota Mayor o igual a 7 si no están todas las
 	// correlativas aprobadas (Mayor o igual a 7)
 

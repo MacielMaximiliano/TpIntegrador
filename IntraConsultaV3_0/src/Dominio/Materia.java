@@ -37,11 +37,9 @@ public class Materia {
 		return correlativas;
 	}
 
-	
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nombre);
+		return Objects.hash(nombre);
 	}
 
 	@Override
@@ -53,8 +51,12 @@ public class Materia {
 		if (getClass() != obj.getClass())
 			return false;
 		Materia other = (Materia) obj;
-		return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre);
+		return Objects.equals(nombre, other.nombre);
 	}
+
+	
+
+	
 
 
 	

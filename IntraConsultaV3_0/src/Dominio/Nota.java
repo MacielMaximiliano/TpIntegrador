@@ -5,9 +5,12 @@ import java.util.Objects;
 public class Nota {
 	private static Integer idSt = 1;
 	private Integer id;
-	private boolean notaRecuperada;
 	
-	private Integer parcial1 ;
+	
+	
+	
+	private boolean notaRecuperada;
+	private Integer parcial1 ;	// lo dejo asi con 2 7 ahi y anda todo perfecto
 	private Integer parcial2 ;
 	private Integer nFinal;
 
@@ -23,26 +26,14 @@ public class Nota {
 	}
 
 	
+	// para cargar la nota final, debe tener aprobadas las parciales
 	
 
 	
 
-	public CondFinal mostrarCondFinal() {
-		// para cargar la nota final, debe tener aprobadas las parciales
-		if (parcial1 >= 4 && parcial2 >= 4) {
-			if (parcial1 >= 7 && parcial2 >= 7) {
-				return CondFinal.Promocionado;
-			}
-			if (parcial1 >= 4 && parcial2 >= 4) {
-				return CondFinal.Cursado;
-			}
-
-		}
-		return CondFinal.Desaprobado;
-	}
-
+	
 	private boolean recuperarNota1(Integer nota) {
-		if (!notaRecuperada) {
+		if (!notaRecuperada &&puedeRecuperar()) {
 			notaRecuperada = true;
 			parcial1 = nota;
 		}
@@ -50,7 +41,7 @@ public class Nota {
 	}
 
 	private boolean recuperarNota2(Integer nota) {
-		if (!notaRecuperada) {
+		if (!notaRecuperada && puedeRecuperar()) {
 			notaRecuperada = true;
 			parcial2 = nota;
 		}
@@ -59,7 +50,7 @@ public class Nota {
 	}
 
 	private boolean puedeRecuperar() {
-		if (parcial1 <= 4 || parcial2 <= 4) {
+		if (parcial1 >= 4 || parcial2 >= 4) {
 			return true;
 		}
 		return false;
@@ -81,27 +72,36 @@ public class Nota {
 
 	}
 
-	public void setNota(Integer nota, TipoNota tipoNota) {
+	public boolean setNota(Integer nota, TipoNota tipoNota) {
 
 		switch (tipoNota) {
 		case PrimerParcial:
-			parcial1 = nota;
-			break;
+			this.parcial1 = nota;
+			return true;
 		case SegundoParcial:
-			parcial2 = nota;
-			break;
+			this.parcial2 = nota;
+			return true;
 
 		case Recuperatorio1:
 			recuperarNota1(nota);
-			break;
+			return true;
 
 		case Recuperatorio2:
 			recuperarNota2(nota);
-			break;
+			return true;
+			
 		default:
 			break;
 		}
+		return false;
 
 	}
 
+
+
+	
+
+	
+	
+	
 }

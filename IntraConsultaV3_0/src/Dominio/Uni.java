@@ -146,14 +146,20 @@ public class Uni {
 		return aux;
 	}
 
+	
+		//TODO
 	// No se Pueden generar 2 Comisiones para la misma materia, el mismo
 	// cicloLectivo y el mismo turno
 	public Boolean registrarCurso(Curso curso) {
-		if (cursos.contains(curso)) {
-			return false;
+
+		 
+			if (cursos.contains(curso)) {
+				return false;
+			}
+			return cursos.add(curso);
 		}
-		return cursos.add(curso);
-	}
+		
+
 
 	public Curso buscarCurso(Integer idCurso) {
 		Curso aux = null;
@@ -209,14 +215,14 @@ public class Uni {
 		if (alumnoInscriptoMismoDiaYturno(alumno, curso)) {
 			return false;
 		}
-			
+
 		if (alumnoTieneCorrelativasAprobadas(alumno, curso)) {
-			return false;
-		}
+			
+			return false;	}
 		// La inscripción no se puede realizar si esta fuera de fecha Inscripción
-		if (!estaEnFechaDeInscripcion(curso)) {
-			return false;
-		}
+		 if (!estaEnFechaDeInscripcion(curso)) {
+		 return false;
+		 }
 
 		AlumnoCurso alumnoCurso = new AlumnoCurso(alumno, curso);
 		return alumnosAsignados.add(alumnoCurso);
@@ -234,9 +240,7 @@ public class Uni {
 
 	}
 
-	
-	
-			//	TODO
+	// TODO
 	// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
 	// correlativas (Todas las correlativas Con nota >=4
 	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Curso curso) {
@@ -261,46 +265,48 @@ public class Uni {
 		AlumnoCurso aux = new AlumnoCurso(alumno, curso);
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
 
-			if (alumnosAsignados.contains(aux)) {
+			if (alumnosAsignados.get(i).equals(aux)) {
+				return alumnosAsignados.get(i);
 
-				return aux;
 			}
+
 		}
 		return null;
 	}
 
-	public Boolean registrarNota(Integer id, Integer dni, Integer nota , TipoNota tipoNota) {
-		boolean ret = false;
+	public Boolean registrarNota(Integer id, Integer dni, Integer nota, TipoNota tipoNota) {
+
 		Alumno alumno = buscarAlumno(dni);
 		Curso curso = buscarCurso(id);
 		AlumnoCurso aux = new AlumnoCurso(alumno, curso);
-		
+		if (nota >= 1 && nota <= 10) {
 
-		for (int i = 0; i < alumnosAsignados.size(); i++) {
+			for (int i = 0; i < alumnosAsignados.size(); i++) {
 
-			if (alumnosAsignados.get(i).equals(aux)) {
-				alumnosAsignados.get(i).getNota().setNota(nota, tipoNota);
-				ret = true;
+				if (alumnosAsignados.get(i).equals(aux)) {
+					return alumnosAsignados.get(i).setNota(nota, tipoNota);
+
+				}
 
 			}
-
 		}
-
-		return ret;
+		return false;
 
 	}
 
-	public Nota obtenerNota(Integer dni, Integer id, TipoNota tipoNota) {
+	public Integer obtenerNota(Integer dni, Integer id, TipoNota tipoNota) {
 		Alumno alumno = buscarAlumno(dni);
 		Materia materia = buscarMateria(id);
 
-		Nota nota = null;
+		Integer nota = null;
 
 		for (int i = 0; i < alumnosAsignados.size(); i++) {
 
 			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
 					&& alumnosAsignados.get(i).getCurso().getMateria().equals(materia)) {
-				nota = alumnosAsignados.get(i).getNota();
+
+				nota = alumnosAsignados.get(i).getNota().getnota(tipoNota);
+				break;
 			}
 
 		}
@@ -317,8 +323,8 @@ public class Uni {
 
 			if (alumnosAsignados.get(i).getAlumno().equals(alumno)
 					&& alumnosAsignados.get(i).getCurso().getMateria().equals(materia)) {
-				aux = alumnosAsignados.get(i).getNota().mostrarCondFinal();
-				
+				return alumnosAsignados.get(i).mostrarCondFinal();
+
 			}
 
 		}
