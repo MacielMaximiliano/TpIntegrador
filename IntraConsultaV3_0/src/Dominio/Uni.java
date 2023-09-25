@@ -149,7 +149,6 @@ public class Uni {
 		return aux;
 	}
 
-	
 	// No se Pueden generar 2 Comisiones para la misma materia, el mismo
 	// cicloLectivo y el mismo turno
 	public Boolean registrarCurso(Curso curso) {
@@ -216,7 +215,7 @@ public class Uni {
 			return false;
 		}
 
-		if (alumnoTieneCorrelativasAprobadas(alumno, curso)) {
+		if (!alumnoTieneCorrelativasAprobadas(alumno, curso)) {
 
 			return false;
 		}
@@ -245,20 +244,22 @@ public class Uni {
 	// No se puede inscribir Alumnos si este no tiene almenos cursada todas las
 	// correlativas (Todas las correlativas Con nota >=4
 	private boolean alumnoTieneCorrelativasAprobadas(Alumno alumno, Curso curso) {
-		if (buscarAlumnoCurso(alumno, curso) != null) {
-			AlumnoCurso aC = buscarAlumnoCurso(alumno, curso);
-			ArrayList<Materia> materiasAux = curso.getMateria().getCorrelativas();
-			for (int i = 0; i < materiasAux.size(); i++) {
+		ArrayList<Materia> materiasCorrelativas = curso.getMateria().getCorrelativas();
+		ArrayList<Materia> materiasAprobadas = mostrarCuantasFaltanCursar(alumno.getDni());
+		Integer contador = 0;
+		for (Materia materia : materiasCorrelativas) {
+			if (!obtenerCondFinal(alumno.getDni(), materia.getId()).equals(CondFinal.Promocionado)
+					|| !obtenerCondFinal(alumno.getDni(), materia.getId()).equals(CondFinal.Cursado)) {
 
-				if (obtenerCondFinal(alumno.getDni(), materiasAux.get(i).getId()).equals(CondFinal.Promocionado)) {
-
-					return true;
-
-				}
-
+				contador++;
 			}
 
 		}
+
+		if (contador == 0) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -435,23 +436,19 @@ public class Uni {
 		}
 		return aprobadas;
 	}
-	
+
 	public ArrayList<Materia> mostrarCuantasFaltanCursar(Integer dni) {
 
 		ArrayList<Materia> faltanCursar = new ArrayList<>();
-
+	
 		for (Materia materia : materias) {
-			if (!obtenerCondFinal(dni, materia.getId()).equals(CondFinal.Promocionado)) {
+			if (!obtenerCondFinal(dni, materia.getId()).equals(CondFinal.Promocionado)
+					|| !obtenerCondFinal(dni, materia.getId()).equals(CondFinal.Cursado)) {
 
 				faltanCursar.add(materia);
 			}
 		}
 		return faltanCursar;
 	}
-	
-	
-	
-	
-	
 
 }

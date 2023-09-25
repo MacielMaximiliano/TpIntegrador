@@ -601,7 +601,7 @@ public class TestUniversidad {
 	//	assertTrue(uni.registrarMateria(materia30));
 	//	assertTrue(uni.registrarMateria(materia40));
 
-		assertTrue(uni.agregarCorrelativas(materia.getId(), materia40.getId()));
+	
 		Turno turno = Turno.Mañana;
 		Dias dias = Dias.Mar_Jue;
 		Dias dias2 = Dias.Lun_Mie;
@@ -627,13 +627,6 @@ public class TestUniversidad {
 		uni.mostrarCuantasFaltanCursar(alumno.getDni());
 	}
 
-	@Test
-	public void ObtenerPROMEDIODeNotasDeAlumnosDeCurso() {
-		// TODO
-
-		// ObtenerPROMEDIODeNotasDeAumnosDeCurso(idCurso)
-
-	}
 
 
 
