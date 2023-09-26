@@ -9,7 +9,7 @@ public class Nota {
 	private boolean notaRecuperada;
 	private Integer parcial1 ;	// lo dejo asi con 2 7 ahi y anda todo perfecto
 	private Integer parcial2 ;
-	private Integer nFinal;
+	
 
 	public Nota() {
 		
@@ -63,7 +63,7 @@ public class Nota {
 			return this.parcial2;
 
 		default:
-			return nFinal;
+			return (parcial1+parcial2)/2;
 
 		}
 

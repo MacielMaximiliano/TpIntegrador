@@ -64,11 +64,7 @@ public class Uni {
 
 	}
 
-	/*
-	 * public Alumno buscarAlumno(Integer dni) { Alumno aux = null; for (int i = 0;
-	 * i < alumnos.size(); i++) { if (alumnos.get(i).getDni() == dni) { aux =
-	 * alumnos.get(i); } } return aux; }
-	 */
+	
 	public Alumno buscarAlumnoPorDni(Integer dniAlumno) {
 		for (Alumno alumno : alumnos) {
 			if (alumno.getDni() == dniAlumno) {

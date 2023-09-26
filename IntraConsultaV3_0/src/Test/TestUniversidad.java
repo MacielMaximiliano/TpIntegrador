@@ -74,10 +74,10 @@ public class TestUniversidad {
 		Alumno alumno = new Alumno(dni, apellido, nombre, fechaNac, fechaIngreso);
 		Alumno alumno2 = new Alumno(dni, "asd", "asdas", fechaNac, fechaIngreso);
 
-		uni.registrarAlumno(alumno);
+		
 
 		// validacion
-
+		assertTrue(uni.registrarAlumno(alumno));
 		assertFalse(uni.registrarAlumno(alumno));
 		assertFalse(uni.registrarAlumno(alumno2));
 	}
@@ -628,6 +628,71 @@ public class TestUniversidad {
 	}
 
 
+	
+	
+	@Test
+	public void calcularPromedioAlumno() {
+		// TODO
+
+		// obtenerListadoMateriasAprobadasParaUnAlumno(idAlumno)
+
+		// preparacion
+		Uni uni = new Uni("unlam");
+
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(1990, 12, 31);
+		LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(2023, 12, 31);
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 8, 8);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 12, 31);
+		;
+		Ciclo ciclo = new Ciclo(fechaInicioCicloLectivo, fechaFinalizacionCicloLectivo, fechaInicioInscripcion,
+				fechaFinalizacionInscripcion);
+
+		assertTrue(uni.registrarCicloLect(ciclo));
+
+		LocalDate fechaIngreso = LocalDate.of(2022, 12, 31);
+		LocalDate fechaNac = LocalDate.of(1990, 12, 31);
+		Alumno alumno = new Alumno(36183763, "maxi", "Maciel", fechaNac, fechaIngreso);
+
+		uni.registrarAlumno(alumno);
+
+		Aula aula = new Aula(1, 10);
+
+		assertTrue(uni.registrarAula(aula));
+
+		Materia materia = new Materia("pbi");
+		Materia materia20 = new Materia("informatica");
+		Materia materia30 = new Materia("ingles");
+		Materia materia40 = new Materia("pb2");
+
+		assertTrue(uni.registrarMateria(materia));
+		Turno turno = Turno.Mañana;
+		Dias dias = Dias.Mar_Jue;
+		Dias dias2 = Dias.Lun_Mie;
+		Dias dias3 = Dias.Mar_Sab;
+		Dias dias4 = Dias.Mie_Vie;
+
+		Curso curso = new Curso(aula, ciclo, materia, turno, dias);
+
+		assertTrue(uni.registrarCurso(curso));
+
+		assertTrue(uni.inscribirAlumnoACurso(alumno.getDni(), curso.getId()));
+
+		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.PrimerParcial));
+		assertTrue(uni.registrarNota(curso.getId(), alumno.getDni(), 7, TipoNota.SegundoParcial));
+
+		Integer aux = 7;
+		assertEquals(aux, uni.obtenerNota(alumno.getDni(), materia.getId(), TipoNota.SegundoParcial));
+		CondFinal aux5 = CondFinal.Promocionado;
+
+		assertEquals(aux5, uni.obtenerCondFinal(alumno.getDni(), curso.getMateria().getId()));
+		
+		assertEquals(aux, uni.obtenerNota(alumno.getDni(), materia.getId(), TipoNota.Final));
+		
+		
+		
+	}
+
+	
 
 
 }
